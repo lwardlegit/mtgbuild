@@ -1,0 +1,110 @@
+.App {
+  width: 60%;
+  margin-left: 20%;
+  justify-content: center;
+}
+
+
+.currentD{
+  overflow: auto;
+  background-color: aqua;
+  text-align: right;
+  float: left;
+  margin: 10%;
+  height: 20em;
+  width: 25%;
+}
+.cardinDeckList{
+  list-style-type: none;
+  margin: 1em;
+}
+
+.btns{
+  display: flex;
+  justify-content: center;
+  background-color: red;
+  padding:1em;
+  margin:auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  width: 50%;
+}
+#tooltip-right{
+  min-width: 10em !important;
+  max-width: 70em;
+  margin: 1em;
+  margin-right: 0 !important;
+  margin-left: 18em !important;
+  background: white;
+}
+.tooltip.bs-tooltip-right .tooltip-inner {
+  background:white !important;
+}
+
+.tooltip .arrow:before {
+  border-left-color: white !important;
+}
+
+.search{
+  background-color: white;
+  padding-right: 2em;
+}
+
+
+.colorComp{
+  background-color: black;
+  float: right;
+  margin: 10%;
+  height: 20em;
+  width: 30%;
+}
+.proCon{
+  display: inline-block;
+  justify-content: center;
+  padding: 4em;
+  margin-bottom: 1em;
+  margin-right: 10%;
+  background: blue;
+  text-align: left;
+  width: 30%;
+  height: 10%;
+  
+}
+
+.bar-label {
+  color: white;
+  font: 15px 'opensans', sans-serif;
+  letter-spacing: 2px;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.bar-suffix {
+display: inline-block;
+  color: black;
+  font: 15px 'opensans-bold', sans-serif;
+  letter-spacing: 2px;
+  font-weight: bold;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.bar{
+  height: 1em;
+}
+.bar-contain {
+  width: 90%;
+  padding-right: 2em;
+  display: inline-block; 
+  border-radius: 0px;
+}
+
+.bar-expand {
+  padding:.2em;
+  display: inline-block;
+  border-radius: 3px 0 0 3px;
+}
+
+
