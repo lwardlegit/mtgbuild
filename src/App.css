@@ -1,28 +1,42 @@
 .App {
-  width: 60%;
-  margin-left: 20%;
+  border-radius: 5px;
+  width: 50%;
+  height: 60em;
+  margin-left: 25%;
+  margin-top: 3em;
+  margin-bottom: 3em;
   justify-content: center;
+  background-color: teal;
 }
-
 
 .currentD{
   overflow: auto;
-  background-color: aqua;
-  text-align: right;
+  text-align: left;
+  margin-left: 4em;
+  border-style: groove;
+  background-color: white;
+  border-radius: 5px;
+  width: 30em;
+  height: 10em;
+
   float: left;
-  margin: 10%;
   height: 20em;
-  width: 25%;
 }
-.cardinDeckList{
-  list-style-type: none;
-  margin: 1em;
+.deckBtns{
+  border-radius: 15px;
+  margin-right: .5em;
+  margin-left: .5em;
 }
 
-.btns{
+
+.cardinDeckList{
+  list-style-type: none;
+ 
+}
+
+.searchdiv{
   display: flex;
   justify-content: center;
-  background-color: red;
   padding:1em;
   margin:auto;
   margin-top: 2em;
@@ -49,14 +63,31 @@
   background-color: white;
   padding-right: 2em;
 }
+.advancedSearchMenu{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 1em;
+}
+.formSubsection{
+  border-style: groove;
+  border-radius: 5px;
+  padding:1em;
+  text-align: left;
+}
+.checks{
+  display: inline-flex;
+  padding: 1em;
+}
 
 
 .colorComp{
-  background-color: black;
   float: right;
-  margin: 10%;
+ 
+  margin-right: 9em;
   height: 20em;
-  width: 30%;
+  width: 20%;
+  padding-bottom: 3em;
 }
 .proCon{
   display: inline-block;
@@ -64,47 +95,27 @@
   padding: 4em;
   margin-bottom: 1em;
   margin-right: 10%;
-  background: blue;
   text-align: left;
   width: 30%;
   height: 10%;
-  
 }
 
-.bar-label {
-  color: white;
-  font: 15px 'opensans', sans-serif;
-  letter-spacing: 2px;
-  position: relative;
-  top: 10px;
-  left: 10px;
+.stats{
+padding: 2em;
+height: 10em;
+border-radius: 5px;
 }
 
-.bar-suffix {
-display: inline-block;
-  color: black;
-  font: 15px 'opensans-bold', sans-serif;
-  letter-spacing: 2px;
-  font-weight: bold;
-  position: relative;
-  top: 10px;
-  left: 10px;
+.addSpace{
+  width: 30em;
+  height: 20em;
+  border-style: groove;
+  border-radius: 5px;
+  margin-top: 25em;
+  margin-left: 4em; 
+
 }
 
-.bar{
-  height: 1em;
-}
-.bar-contain {
-  width: 90%;
-  padding-right: 2em;
-  display: inline-block; 
-  border-radius: 0px;
-}
 
-.bar-expand {
-  padding:.2em;
-  display: inline-block;
-  border-radius: 3px 0 0 3px;
-}
 
 

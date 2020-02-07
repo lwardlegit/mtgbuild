@@ -9,7 +9,6 @@
     "bootstrap": "^4.4.1",
     "mtgsdk": "^0.4.3",
     "react": "^16.12.0",
-    "react-bars": "^0.1.2",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
     "react-icons": "^3.8.0",

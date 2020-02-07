@@ -5,7 +5,8 @@ import Stats from './stats';
 import PieChart from 'react-minimal-pie-chart';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip';
-
+import {AiOutlinePlus} from 'react-icons/ai';
+import {AiOutlineMinus} from 'react-icons/ai';
 
 export default class App extends React.Component{
   state={
@@ -139,22 +140,20 @@ export default class App extends React.Component{
     const colorSum = this.state.blue+ this.state.black+ this.state.white+ this.state.red+ this.state.green
     return (
       <div className="App">
-          <h2>MTG deck builder</h2>
-        <div className = "btns">
+        <div className = "searchdiv">
             <Search className = "search" addToDeck={this.addToDeck} />
         </div>
 
             <div className="currentD">
-              <h4>Deck List</h4>
-
                   <ul>
+                  <h5>Deck List</h5>
                       {currentDeck.map((card, index, num, img) => (
                       <li className = 'cardinDeckList' key={index}>
                       <div style={{paddingRight: '1em'}}>
                         <strong>{card.name}</strong>  <span key={num}>x{card.count}</span> 
 
-                        <button onClick={()=>{this.addToDeck(card)}} style={{ marginLeft: '1em', width: '2em', height: '2em', textAlign:'center'}}>+</button>
-                        <button onClick={()=>{this.removeCard(card)}} style={{ marginLeft: '1em', width: '2em', height: '2em', textAlign:'center'}}>-</button>
+                        <AiOutlinePlus className="deckBtns" onClick={()=>{this.addToDeck(card)}}/>
+                        <AiOutlineMinus className="deckBtns" onClick={()=>{this.removeCard(card)}}/>
 
                     {
                         this.state.tooltip ?
@@ -175,10 +174,14 @@ export default class App extends React.Component{
                      </li>
               ))}
                   </ul>
+
+                    
+
+
             </div>
 
             <div className="colorComp">
-                <h4>Color Composition</h4>
+                
                     <PieChart
                     style={{height: '200px'}}
                      animate={true}
@@ -193,10 +196,15 @@ export default class App extends React.Component{
                         { title: `Green ${this.state.green/colorSum*100}%`, value: this.state.green, color: 'green' },
                         ]}
                       />
-                </div>
-                <div className = "proCon">
-                  <Stats props = {this.state}/>
-                </div>
+                      
+                      <div className="stats">
+                      <Stats props = {this.state}/>
+                      </div>
+                </div> 
+
+                <div className = "addSpace">
+                      add space
+                 </div>
             </div>
 
     );
