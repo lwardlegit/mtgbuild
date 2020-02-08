@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.img-thumb-sm {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: absolute;
+  display: inline-block;
+}
+
+.tooltip-inner-custom {
+}
+
+.img-thumb-large {
+  width: 120px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.tooltip-inner-custom > .tooltip-inner {
+  background-color: lightslategrey;
+}
+
+.tooltip-inner-custom > .arrow::before {
+  border-right-color: lightslategrey;
+}
