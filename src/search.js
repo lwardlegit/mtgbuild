@@ -82,8 +82,7 @@ export default class Search extends Component {
 
     }
 
-    closeModal = (e) => {
-        e.preventDefault();
+    closeModal = () => {
         this.setState({modal: false});
     }
 
@@ -210,9 +209,8 @@ export default class Search extends Component {
                 <Modal show={this.state.menu} onHide={() => this.toggleMenu()}>
                     <Modal.Body className="advancedSearchMenu">
 
-                        <Form onSubmit={(e) => {
-                            this.setState({name: e.target.value})
-                        }}>
+                        {/*preventDefault is called on the event when submitting the form to prevent a browser reload/refresh*/}
+                        <Form onSubmit={(e) => {e.preventDefault()}}>
                             <Form.Group controlId="formBasicCardName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control name='cardName' type="text" placeholder="Enter card name"
@@ -282,9 +280,7 @@ export default class Search extends Component {
                             </Form.Group>
 
 
-                            <Button variant="primary" type="submit" size='block' onClick={(e) => {
-                                this.closeModal(e)
-                            }}>
+                            <Button variant="primary" type="submit" size='block' onClick={this.closeModal}>
                                 Close
                             </Button>
                         </Form>
