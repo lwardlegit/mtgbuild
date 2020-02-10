@@ -98,22 +98,24 @@ export default class Search extends Component {
     handleChange(event) {
         const target = event.target;
         let value = any;
-
-        if (target.type === 'checkbox'){
-            if (event.target.checked){
-                if (target.name === 'cardColor'){
+        //check the target and add/remove to the array.
+        if (target.type === 'checkbox') {
+            ////check the target and add to the array.
+            if (event.target.checked) {
+                if (target.name === 'cardColor') {
                     value = [...this.state.cardColor, target.value]
-                } else if (target.name === 'cardLegality'){
+                } else if (target.name === 'cardLegality') {
                     value = [...this.state.cardLegality, target.value]
                 }
             }
+            ////check the target and remove to the array.
             else {
-                if (target.name === 'cardColor'){
+                if (target.name === 'cardColor') {
                     let array = [...this.state.cardColor];
                     let index = array.indexOf(target.value);
                     array.splice(index, 1);
                     value = array;
-                } else if (target.name === 'cardLegality'){
+                } else if (target.name === 'cardLegality') {
                     let array = [...this.state.cardLegality];
                     let index = array.indexOf(target.value);
                     array.splice(index, 1);
@@ -148,25 +150,32 @@ export default class Search extends Component {
         } else {
             this.setState({modal: true, spinner: true})
 
-        mtg.card.all({ name: search, colors: form.colors, text: form.text, legalities: form.legality, setName: form.set, pageSize: 4 }) 
-        //* note, when a value is '' it simply isnt searched for but no error is thrown
-            .on('data', card => {
-                var searchedCard = {
-                    name:card.name,
-                    img: card.imageUrl,
-                    manaCost: card.manaCost,
-                    cmc: card.cmc,
-                    colors: card.colors,
-                    types: card.types,
-                    setName: card.setName,
-                    text: card.text,
-                    legality: card.legalities
-                }
-                
-            this.setState({result: [...this.state.result, searchedCard], spinner:false })
-        })
-    } 
-  }
+            mtg.card.all({
+                name: search,
+                colors: form.colors,
+                text: form.text,
+                legalities: form.legality,
+                setName: form.set,
+                pageSize: 4
+            })
+                //* note, when a value is '' it simply isnt searched for but no error is thrown
+                .on('data', card => {
+                    var searchedCard = {
+                        name: card.name,
+                        img: card.imageUrl,
+                        manaCost: card.manaCost,
+                        cmc: card.cmc,
+                        colors: card.colors,
+                        types: card.types,
+                        setName: card.setName,
+                        text: card.text,
+                        legality: card.legalities
+                    }
+
+                    this.setState({result: [...this.state.result, searchedCard], spinner: false})
+                })
+        }
+    }
 
     render() {
 
@@ -201,7 +210,9 @@ export default class Search extends Component {
                 <Modal show={this.state.menu} onHide={() => this.toggleMenu()}>
                     <Modal.Body className="advancedSearchMenu">
 
-                        <Form onSubmit={(e)=>{this.setState({name: e.target.value})}}>
+                        <Form onSubmit={(e) => {
+                            this.setState({name: e.target.value})
+                        }}>
                             <Form.Group controlId="formBasicCardName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control name='cardName' type="text" placeholder="Enter card name"
@@ -223,39 +234,57 @@ export default class Search extends Component {
                             <Form.Label>card colors</Form.Label>
                             <Form.Group controlId="formBasicColors">
                                 <div className="formSubsection">
-                                    <Form.Check name="cardColor" type="checkbox" label="Blue" value="Blue" onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="Black" value="Black"  onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="White" value="White" onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="Green" value="Green"  onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="Red" value="Red"  onChange={this.handleChange}/>
+                                    <Form.Check name="cardColor" type="checkbox" label="Blue" value="Blue"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardColor" type="checkbox" label="Black" value="Black"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardColor" type="checkbox" label="White" value="White"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardColor" type="checkbox" label="Green" value="Green"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardColor" type="checkbox" label="Red" value="Red"
+                                                onChange={this.handleChange}/>
                                 </div>
                             </Form.Group>
 
                             <Form.Label>legality</Form.Label>
                             <Form.Group controlId="formBasicLegality">
                                 <div className="formSubsection">
-                                    <Form.Check name="cardLegality" type="checkbox" label="Standard" value="Standard" onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Modern" value="Modern"  onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Commander" value="Commander" onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Pioneer" value="Pioneer"  onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Legacy" value="Legacy"  onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Vintage" value="Vintage"  onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Pauper" value="Pauper"  onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Standard" value="Standard"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Modern" value="Modern"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Commander" value="Commander"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Pioneer" value="Pioneer"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Legacy" value="Legacy"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Vintage" value="Vintage"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardLegality" type="checkbox" label="Pauper" value="Pauper"
+                                                onChange={this.handleChange}/>
                                 </div>
                             </Form.Group>
 
                             <Form.Group controlId="formBasicType">
                                 <Form.Label>card Type</Form.Label>
                                 <div className="formSubsection">
-                                    <Form.Check name="cardType" type="radio" label="creature" value="creature" onChange={this.handleChange}/>
-                                    <Form.Check name="cardType" type="radio" label="sorcery" value="sorcery" onChange={this.handleChange}/>
-                                    <Form.Check name="cardType" type="radio" label="artifact" value="artifact" onChange={this.handleChange}/>
-                                    <Form.Check name="cardType" type="radio" label="land" value="land" onChange={this.handleChange}/>
+                                    <Form.Check name="cardType" type="radio" label="creature" value="creature"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardType" type="radio" label="sorcery" value="sorcery"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardType" type="radio" label="artifact" value="artifact"
+                                                onChange={this.handleChange}/>
+                                    <Form.Check name="cardType" type="radio" label="land" value="land"
+                                                onChange={this.handleChange}/>
                                 </div>
                             </Form.Group>
 
 
-                            <Button variant="primary" type="submit" size='block' onClick={(e)=>{this.closeModal(e)}}>
+                            <Button variant="primary" type="submit" size='block' onClick={(e) => {
+                                this.closeModal(e)
+                            }}>
                                 Close
                             </Button>
                         </Form>
