@@ -7,7 +7,7 @@ Search by type, color, name, set and/or legality using our advanced search featu
 
 ## Generate Random Hands
 
-Master the flow of your deck by viewing random hands of 7 cards
+Master the flow of your deck by viewing random clean hands.
 
 ## Clean UI
 
