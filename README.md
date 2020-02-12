@@ -22,7 +22,7 @@ Professional deck building apps shouldn't discourage new players. Our simple UX 
 
 ## Stats that matter
 
-When it comes to Magic, overall performance in specific categories makes a healthy deck
+ We measure and assess your overall performance in several important categories as you build your deck:
 
     - Drawability
     - Control Factor
