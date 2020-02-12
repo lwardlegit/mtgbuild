@@ -5,6 +5,10 @@ This app will serve as a simple yet comprehensive deck building tool for any mag
 
 Search by type, color, name, set and/or legality using our advanced search feature
 
+## Generate Random Hands
+
+Master the flow of your deck by viewing random hands of 7 cards
+
 ## Clean UI
 
 Professional deck building apps shouldn't discourage new players. Our simple UX and UI help to keep your mana curve high while your learning curve stays low no matter how complex your deck becomes.
