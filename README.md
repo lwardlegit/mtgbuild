@@ -20,8 +20,17 @@ Professional deck building apps shouldn't discourage new players. Our simple UX 
     - Export lists of your finished decks as PDF text or email
     - Buy your deck with one click
 
-## Delivering What Matters
+## Stats that matter
 
-style your stats to match the features that are important to you. We rate your deck on its ability to draw fresh cards, control the field, protect you with tokens and much more.
+When it comes to Magic, overall performance in specific categories makes a healthy deck
+
+We rate your deck for you based on:
+
+  -Drawability
+  -Control Factor
+  -Token Generation
+  -Mana Cost
+  -power
+  -strength
 
 
