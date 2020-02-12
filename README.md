@@ -24,13 +24,9 @@ Professional deck building apps shouldn't discourage new players. Our simple UX 
 
 When it comes to Magic, overall performance in specific categories makes a healthy deck
 
-We rate your deck for you based on:
-
-  -Drawability
-  -Control Factor
-  -Token Generation
-  -Mana Cost
-  -power
-  -strength
+    - Drawability
+    - Control Factor
+    - Mana Cost
+    - Power
 
 
