@@ -5,6 +5,10 @@ This app will serve as a simple yet comprehensive deck building tool for any mag
 
 Search by type, color, name, set and/or legality using our advanced search feature
 
+## Generate Random Hands
+
+Master the flow of your deck by viewing random clean hands.
+
 ## Clean UI
 
 Professional deck building apps shouldn't discourage new players. Our simple UX and UI help to keep your mana curve high while your learning curve stays low no matter how complex your deck becomes.
@@ -16,8 +20,13 @@ Professional deck building apps shouldn't discourage new players. Our simple UX 
     - Export lists of your finished decks as PDF text or email
     - Buy your deck with one click
 
-## Delivering What Matters
+## Stats that matter
 
-style your stats to match the features that are important to you. We rate your deck on its ability to draw fresh cards, control the field, protect you with tokens and much more.
+ We measure and assess your overall performance in several important categories as you build your deck:
+
+    - Drawability
+    - Control Factor
+    - Mana Cost
+    - Power
 
 
