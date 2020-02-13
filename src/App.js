@@ -3,39 +3,43 @@ import './App.css';
 import Search from './search';
 import Stats from './stats';
 import PieChart from 'react-minimal-pie-chart';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert'
 import {AiOutlinePlus} from 'react-icons/ai';
 import {AiOutlineMinus} from 'react-icons/ai';
 import {Button, ButtonToolbar, Tooltip, Overlay} from 'react-bootstrap';
 
-// const [show, setShow] = useState(false);
-// const target = useRef(null);
-// const { currentDeck } = this.state;
-// const colorSum = this.state.blue+ this.state.black+ this.state.white+ this.state.red+ this.state.green
 
 export default class App extends React.Component {
     state = {
         // tooltip:false,
         cardCount: 0,
         currentDeck: [],
+        randomHand:[],
         blue: 0,
         black: 0,
         white: 0,
         green: 0,
         red: 0,
 
-        drawability: 3,
-        manaGranting: 10,
-        defense: 0,
-        tokenGeneration: 0,
-        controlFactor: 10
+        handModal: false,
+        tutorial: false,
+
+        drawability: 'NA',
+        manaCost: 'NA',
+        power: 'NA',
+        control: 'NA',
+        land: 'NA',
+        tokens: 'NA'
     }
 
     colorCases = (card) => {
         let colorArray = card.colors
         for (let x in colorArray) {
             let color = colorArray[x].toLowerCase()
-            console.log("color", color)
+    
             if (color === 'blue') {
                 this.setState({blue: this.state.blue + 1})
             }
@@ -128,13 +132,64 @@ export default class App extends React.Component {
         }
     }
 
+
+    /*  
+     *  generates a random hand of 7 cards and displays them as a modal
+     */ 
+
+    makeRandomHand = () =>{
+        var fullDeck = this.state.currentDeck
+                          
+            for (var card in fullDeck){             
+
+                let current = fullDeck[card]        
+                if (current.count >= 2){         
+                    let countDown = current.count
+
+                    while(countDown >= 1){       
+                        fullDeck.push(current) 
+                        countDown -= 1
+                    }
+                }else{
+                    fullDeck.push(current)
+                }
+            }
+            //randomly select 7 cards
+        if(fullDeck.length >= 8){
+            var hand = []
+            let i = 0
+
+            while(i <= 6){
+                
+                let card =  Math.floor(Math.random() * fullDeck.length) 
+                hand.push(fullDeck[card])
+                fullDeck.splice(card,1)
+                i += 1
+            }
+                    console.log("the hand",hand) //show the cards to the user as a modal later
+                    this.setState({randomHand: hand, handModal:true})
+               
+        }else{
+            alert('sorry you need at least 8 cards in your deck to use this feature :(')
+        }
+        return
+            
+    }
+
+
+
+
+
     tooltipHandler = () => {
-        console.log('running tooltip handler')
+       
         if (this.state.tooltip === false) {
             this.setState({tooltip: true})
         } else {
             this.setState({tooltip: false})
         }
+    }
+    showTutorial = () =>{
+        this.setState({tutorial:!this.state.tutorial})
     }
 
     getTooltip(card) {
@@ -148,13 +203,16 @@ export default class App extends React.Component {
         const colorSum = this.state.blue + this.state.black + this.state.white + this.state.red + this.state.green
         return (
             <div className="App">
-                <div className="searchdiv">
-                    <Search className="search" addToDeck={this.addToDeck}/>
+
+
+                <div className = "randomHandBtn" >
+                    <Button className="handBtn" variant="outline-light" onClick={()=>this.makeRandomHand()}>Random Hand</Button>
+                    <Button className="handBtn" variant="outline-light" onClick={()=>this.showTutorial()}>Tutorial</Button>
+                    <Search className="handBtn" addToDeck={this.addToDeck}/>
                 </div>
 
                 <div className="currentD">
-                    <h5>Deck List</h5>
-
+                    <p style={{marginLeft: '1.5em'}}>Deck List</p>
                     <ul>
                         {currentDeck.map((card, index, num, img) => (
                             <li className='cardinDeckList' key={index}>
@@ -202,9 +260,9 @@ export default class App extends React.Component {
                 </div>
 
                 <div className="colorComp">
-
+                  
                     <PieChart
-                        style={{height: '200px'}}
+                        style={{height: '200px', marginTop: '1em'}}
                         animate={true}
                         animationDuration={500}
                         animationEasing="ease-out"
@@ -230,16 +288,64 @@ export default class App extends React.Component {
                         ]}
                     />
 
-                    <div className="stats">
-                        <Stats props={this.state}/>
+                    
+                        
+                </div>
+                    <div className="statsDiv">
+                    <Stats props={this.state}/>
                     </div>
-                </div>
+                
+                
 
-                <div className="addSpace">
-                    add space
-                </div>
+      
+                        <Modal show={this.state.handModal} className="handModal">
+                            <Modal.Header>
+                            <Modal.Title>Your hand</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                   {this.state.randomHand ?
+                                   
+                                   this.state.randomHand.map((card,index)=>{
+                                       return(
+                                           <div key = {index} style={{display: 'inline'}}>
+                                               <img height="120px" width= "100px" src={card.img} alt={card.name}></img>
+                                           </div>
+                                       )
+                                   })
+                                   
+                                   :  <div>
+                                       <p>We are picking your hand</p>
+                                       <Spinner animation="border" size="sm"/>
+                                       </div>}
+                            </Modal.Body>
+                            <Modal.Footer>
+                            <Button variant="secondary" onClick={()=>{this.setState({handModal:false})}}>
+                                Close
+                            </Button>
+                            </Modal.Footer>
+                        </Modal>
+
+
+
+
+                        <Modal show={this.state.tutorial} className="handModal">
+                            <Modal.Header>
+                            <Modal.Title>Welcome to Deck Builder</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                   <p>Welcome to deck builder!</p>
+                            </Modal.Body>
+                            <Modal.Footer>
+                            <Button variant="secondary" onClick={()=>{this.showTutorial()}}>
+                                Close
+                            </Button>
+                            </Modal.Footer>
+                        </Modal>
+                        
             </div>
 
+
+                       
         );
     }
 }

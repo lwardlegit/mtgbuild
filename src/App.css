@@ -6,7 +6,8 @@
   margin-top: 3em;
   margin-bottom: 3em;
   justify-content: center;
-  background-color: teal;
+  background-image:  url("./magicBack.png");
+ 
 }
 
 .currentD{
@@ -14,7 +15,8 @@
   text-align: left;
   margin-left: 4em;
   border-style: groove;
-  background-color: white;
+  background-color: black;
+  color: aliceblue;
   border-radius: 5px;
   width: 30em;
   float: left;
@@ -32,12 +34,13 @@
   padding: 12px 0;
 }
 
+
 .searchdiv{
   display: flex;
   justify-content: center;
   padding:1em;
   margin:auto;
-  margin-top: 2em;
+  margin-top: 5em;
   margin-bottom: 2em;
   width: 50%;
 }
@@ -57,15 +60,32 @@
   border-left-color: white !important;
 }*/
 
-.search{
-  background-color: white;
-  padding-right: 2em;
+.randomHandBtn{
+  width: 30em;
+  margin-left: 3em;
+  margin-bottom: 1em;
+  padding-top: 10%;
+  
+
 }
+.handBtn{
+  margin-left: 1em;
+  background-color: #bdd4e7;
+  background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+  
+}
+.handModal{
+  width: 90%;
+}
+
 .advancedSearchMenu{
+  width:100%;
+  height:100%;
+  background-color: black;
+  color: aliceblue;
   display: flex;
   justify-content: center;
   text-align: center;
-  margin: 1em;
 }
 .formSubsection{
   border-style: groove;
@@ -81,11 +101,12 @@
 
 .colorComp{
   float: right;
- 
-  margin-right: 4em;
+  background-color: black;
+  border-style: groove;
+  border-radius: 5px;
+  margin-right: 9em;
   height: 20em;
-  width: 20%;
-  padding-bottom: 3em;
+  width: 30%;
 }
 .proCon{
   display: inline-block;
@@ -98,17 +119,47 @@
   height: 10%;
 }
 
-.stats{
-padding: 2em;
-height: 10em;
-border-radius: 5px;
+.statsDiv{
+display: flex;
+justify-content: center;
+margin-top: 9em;
+margin-bottom: 10em;
+width: 100%;
+height: 80%;
+background-color: black;
 }
+
+.stats{
+color: aliceblue;
+display: block;
+text-align: center;
+margin-top: 5em;
+padding: 2em;
+height: 60%;
+width: 80%;
+
+}
+.statsNames{
+  display: flex;
+  width: 70%;
+  margin-top: 4em;
+  margin-left: 16em;
+  
+
+}
+.statsValues{
+float: right;
+margin-left: 10em;
+}
+
+
 
 .addSpace{
   width: 30em;
   height: 20em;
   border-style: groove;
   border-radius: 5px;
+  background-color: black;
   margin-top: 25em;
   margin-left: 4em; 
 

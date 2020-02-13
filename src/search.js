@@ -51,7 +51,7 @@ export default class Search extends Component {
         } else {
 
             return (
-                <div style={{width: '90%', display: 'block', overflow: 'auto'}}>{
+                <div>{
                     this.state.result.map((obj, section, index, legality, add) => {
                         return (
                             <div key={section} style={{
@@ -180,7 +180,7 @@ export default class Search extends Component {
 
         return (
 
-            <div>
+            <div style={{width: '40%', float:'right', marginLeft: '1em'}}>
                 <Modal
                     style={{height: '70%', marginTop: '5em'}}
                     show={this.state.modal}
@@ -289,8 +289,7 @@ export default class Search extends Component {
                 </Modal>
 
 
-                <div style={{display: 'inline-flex'}}>
-
+              
                     <InputGroup className="mb-3" onChange={(e) => this.updateInput(e)}>
                         <InputGroup.Append>
                             <button type="submit" onClick={() => this.searchCard()}><FaSearch/></button>
@@ -302,7 +301,7 @@ export default class Search extends Component {
 
                         <FormControl aria-describedby="basic-addon1"/>
                     </InputGroup>
-                </div>
+                
             </div>
         )
 
