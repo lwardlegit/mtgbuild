@@ -329,15 +329,41 @@ export default class App extends React.Component {
 
 
                         <Modal show={this.state.tutorial} className="handModal">
-                            <Modal.Header>
-                            <Modal.Title>Welcome to Deck Builder</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
+                            
+                            <Modal.Body className="tutorialBody">
                                    <p>Welcome to deck builder!</p>
+                                   <br></br>
+                                   <p className = "tutorialText">Lets get started building your deck</p>
+
+                                   to add cards to your deck you can search for them in the search bar. You can also search for cards using our advanced search
+                                       feature, just click the button next to the search icon to edit your desired parameters.
+                                   
+
+                                   <p className = "tutorialText">
+                                       You can add multiple copies of a card by pressing the <b style={{color:'yellow'}}>+</b> or <b style={{color:'yellow'}}>-</b> buttons next to a card in your deck list. The color pie chart on the right
+                                       displays what color composition your deck consists of. Hover over a color to see the percentage of each color.
+                                   </p>
+
+                                   <p className = "tutorialText">
+                                       If you'd like to see how your deck really performs out of the gate you can press the 'random hand' button which will show you a random hand 
+                                       that you could possibly draw on your first turn! You need to have at least 8 cards in your deck to use this feature otherwise, you'd just be drawing 
+                                       your whole deck every time you drew a hand... and ...that's just cheating.
+                                   </p>
+
+                                   <p className = "tutorialText">
+                                       finally beneath your deck you'll be able to see some stats based on what kinds of cards your deck contains. Cards that generate mana will increase your
+                                       land stat, while cards that target creatures or players your opponent controls will increase your control factor stat. Understanding the relationships
+                                       your cards facilitate both towards you and against your opponent are a strong measure of your deck's available playstyle.
+
+                                       you can even add your own stats that you wish to track, when a stat is added, our algorithm searches your deck and checks for cards matching the title
+                                       and description of your stat. Cards matching your stats guidelines will be factored into that stat. Keep in mind, this does not remove those cards from contributing to 
+                                       other stats.
+                                   </p>
+
                             </Modal.Body>
-                            <Modal.Footer>
-                            <Button variant="secondary" onClick={()=>{this.showTutorial()}}>
-                                Close
+                            <Modal.Footer className="tutorialBody" >
+                            <Button variant="outline-primary" size="block" onClick={()=>{this.showTutorial()}}>
+                                Got it!
                             </Button>
                             </Modal.Footer>
                         </Modal>

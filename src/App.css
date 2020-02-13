@@ -75,7 +75,16 @@
   
 }
 .handModal{
-  width: 90%;
+  width: 100%;
+  height: 70%;
+  margin-top: 8em;
+}
+.tutorialBody{
+  color:aliceblue;
+  background-color: #3e3149;
+}
+.tutorialText{
+  margin-bottom: 1em;
 }
 
 .advancedSearchMenu{
