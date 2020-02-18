@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import './App.css';
 import Search from './search';
 import Stats from './stats';
+import AddStat from './addStat';
 import PieChart from 'react-minimal-pie-chart';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Modal from 'react-bootstrap/Modal';
@@ -27,12 +28,16 @@ export default class App extends React.Component {
         handModal: false,
         tutorial: false,
 
-        drawability: 'NA',
-        manaCost: 'NA',
-        power: 'NA',
-        control: 'NA',
-        land: 'NA',
-        tokens: 'NA'
+        
+
+        stats:[
+            {name: 'drawability', value: 'NA'},
+            {name: 'manaCost', value: 'NA'},
+            {name: 'power', value: 'NA'},
+            {name: 'control', value: 'NA'},
+            {name: 'land', value: 'NA'},
+            {name: 'tokens', value: 'NA'}
+        ]
     }
 
     colorCases = (card) => {
@@ -138,11 +143,11 @@ export default class App extends React.Component {
      */ 
 
     makeRandomHand = () =>{
-        var fullDeck = this.state.currentDeck
+        let fullDeck = []
                           
-            for (var card in fullDeck){             
+            for (var card in this.state.currentDeck){             
 
-                let current = fullDeck[card]        
+                let current = this.state.currentDeck[card]        
                 if (current.count >= 2){         
                     let countDown = current.count
 
@@ -156,7 +161,7 @@ export default class App extends React.Component {
             }
             //randomly select 7 cards
         if(fullDeck.length >= 8){
-            var hand = []
+            let hand = []
             let i = 0
 
             while(i <= 6){
@@ -176,9 +181,28 @@ export default class App extends React.Component {
             
     }
 
+    //will check the stats based on card text and update whichever stat matches it
+    // NEEDS TO BE CHECKED TOMORROW
+    evaluateStats = () =>{
+            let deck = this.state.currentDeck
+            let tempstats = this.state.stats
+    
+            for(let card in deck){
+                for(let stat in tempstats){
+                    if (card.text.includes(stat.name)){
+                        stat.value +=1
+                    }
+                }
+            }
+            this.setState({stats:tempstats})
+    }
 
 
-
+    addStat = (param) =>{
+        console.log(param)
+        let obj = {name: param, value: 'NA'}
+        this.setState({stats: [...this.state.stats,obj]})
+    }
 
     tooltipHandler = () => {
        
@@ -194,7 +218,7 @@ export default class App extends React.Component {
 
     getTooltip(card) {
         return <Tooltip className="tooltip-inner-custom">
-            <img className="img-thumb-large" src={card}/>
+            <img className="img-thumb-large" src={card} style={{width: '250px', height: '320px'}}/>
         </Tooltip>;
     }
 
@@ -291,24 +315,24 @@ export default class App extends React.Component {
                     
                         
                 </div>
+
                     <div className="statsDiv">
-                    <Stats props={this.state}/>
+                        <Stats props={this.state}/>
+                        <AddStat addStat={this.addStat} />
                     </div>
                 
                 
 
       
-                        <Modal show={this.state.handModal} className="handModal">
-                            <Modal.Header>
-                            <Modal.Title>Your hand</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
+                        <Modal show={this.state.handModal} className="modalBod">
+                            
+                            <Modal.Body className="modalColoring">
                                    {this.state.randomHand ?
                                    
                                    this.state.randomHand.map((card,index)=>{
                                        return(
                                            <div key = {index} style={{display: 'inline'}}>
-                                               <img height="120px" width= "100px" src={card.img} alt={card.name}></img>
+                                               <img height="200px" width= "160px" src={card.img} alt={card.name}></img>
                                            </div>
                                        )
                                    })
@@ -318,8 +342,8 @@ export default class App extends React.Component {
                                        <Spinner animation="border" size="sm"/>
                                        </div>}
                             </Modal.Body>
-                            <Modal.Footer>
-                            <Button variant="secondary" onClick={()=>{this.setState({handModal:false})}}>
+                            <Modal.Footer className="modalColoring">
+                            <Button variant="outline-dark" onClick={()=>{this.setState({handModal:false})}}>
                                 Close
                             </Button>
                             </Modal.Footer>
@@ -331,9 +355,9 @@ export default class App extends React.Component {
                         <Modal show={this.state.tutorial} className="handModal">
                             
                             <Modal.Body className="tutorialBody">
-                                   <p>Welcome to deck builder!</p>
+                                   <h3>Welcome to deck builder!</h3>
                                    <br></br>
-                                   <p className = "tutorialText">Lets get started building your deck</p>
+                                   <h5 className = "tutorialText">Lets get started building your deck</h5>
 
                                    to add cards to your deck you can search for them in the search bar. You can also search for cards using our advanced search
                                        feature, just click the button next to the search icon to edit your desired parameters.
@@ -345,19 +369,15 @@ export default class App extends React.Component {
                                    </p>
 
                                    <p className = "tutorialText">
-                                       If you'd like to see how your deck really performs out of the gate you can press the 'random hand' button which will show you a random hand 
-                                       that you could possibly draw on your first turn! You need to have at least 8 cards in your deck to use this feature otherwise, you'd just be drawing 
-                                       your whole deck every time you drew a hand... and ...that's just cheating.
+                                       you can press the 'random hand' button to generate a random hand 
+                                       that you could possibly draw on your first turn! You need to have at least 8 cards in your deck to use this feature
                                    </p>
 
                                    <p className = "tutorialText">
                                        finally beneath your deck you'll be able to see some stats based on what kinds of cards your deck contains. Cards that generate mana will increase your
-                                       land stat, while cards that target creatures or players your opponent controls will increase your control factor stat. Understanding the relationships
-                                       your cards facilitate both towards you and against your opponent are a strong measure of your deck's available playstyle.
+                                       land stat, while cards that target creatures or players your opponent controls will increase your control factor stat.
 
-                                       you can even add your own stats that you wish to track, when a stat is added, our algorithm searches your deck and checks for cards matching the title
-                                       and description of your stat. Cards matching your stats guidelines will be factored into that stat. Keep in mind, this does not remove those cards from contributing to 
-                                       other stats.
+                                       you can even add your own stats that you wish to track by typing it in the 'add stat' field below
                                    </p>
 
                             </Modal.Body>
@@ -367,11 +387,7 @@ export default class App extends React.Component {
                             </Button>
                             </Modal.Footer>
                         </Modal>
-                        
-            </div>
-
-
-                       
+                </div>             
         );
     }
 }

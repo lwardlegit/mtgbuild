@@ -207,7 +207,7 @@ export default class Search extends Component {
 
 
                 <Modal show={this.state.menu} onHide={() => this.toggleMenu()}>
-                    <Modal.Body className="advancedSearchMenu">
+                    <Modal.Body className="modalColoring">
 
                         {/*preventDefault is called on the event when submitting the form to prevent a browser reload/refresh*/}
                         <Form onSubmit={(e) => {e.preventDefault()}}>
