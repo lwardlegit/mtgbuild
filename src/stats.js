@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {TiDelete} from 'react-icons/ti';
 
 
 export default class Stats extends Component {
@@ -10,9 +11,10 @@ export default class Stats extends Component {
 
                  {this.props.props.stats.map((stat,index)=>{
                         return(
-                            <div className="statsNames">
+                            <div key={index} className="statsNames">
                             <p>{stat.name}</p>
                             <p>{stat.value}</p>
+                            <TiDelete type="button" onClick={()=>{this.props.removeStat(stat.id)}}/>
                             </div>
                         )
                     })}

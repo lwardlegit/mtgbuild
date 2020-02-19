@@ -14,8 +14,8 @@ export default class AddStat extends Component {
         return <Tooltip className="tooltip-inner-custom">
             the stats feature looks for cards
             in your deck matching your entered
-            word(s) and measures their frequency on 
-            a scale of 1-10
+            word(s) and measures their frequency
+            (how many of a type exist in your deck)
             </Tooltip>;
     }
 
@@ -27,17 +27,19 @@ export default class AddStat extends Component {
 
     render() {
         return (
-            <div style={{marginTop: '10%'}}>
+            <div style={{marginTop: '1.5em', display:'flex', justifyContent:'space-evenly'}}>
 
                 <form onSubmit={(e)=>e.preventDefault()} >
-                    <label>
-                        Stat Name:
-                        <input name='newStat' value={ this.state.newStat } onChange={this.handleChange}/>
-                    </label>
-                    <button onClick={()=>this.props.addStat(this.state.newStat)} type="button">add</button>
+                   
+                        <input  style={{marginLeft: '1em'}}name='newStat' value={ this.state.newStat } onChange={this.handleChange}/>
+                    
+                    <button onClick={ async()=>{
+                        this.props.addStat(this.state.newStat) 
+                        this.setState({newStat:''})
+                        }} type="button">Add Stat</button>
                     
                     <OverlayTrigger placement="right" overlay={this.getTooltip()} trigger="hover" rootClose={true}>
-                        <AiFillQuestionCircle/>
+                        <AiFillQuestionCircle style={{marginLeft:'1em'}}/>
                     </OverlayTrigger>
                 </form>
             </div>

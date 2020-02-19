@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import './App.css';
 import Search from './search';
 import Stats from './stats';
@@ -7,15 +7,14 @@ import PieChart from 'react-minimal-pie-chart';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
-import Alert from 'react-bootstrap/Alert'
 import {AiOutlinePlus} from 'react-icons/ai';
 import {AiOutlineMinus} from 'react-icons/ai';
-import {Button, ButtonToolbar, Tooltip, Overlay} from 'react-bootstrap';
+import {Button,Tooltip} from 'react-bootstrap';
 
 
 export default class App extends React.Component {
     state = {
-        // tooltip:false,
+     
         cardCount: 0,
         currentDeck: [],
         randomHand:[],
@@ -31,12 +30,12 @@ export default class App extends React.Component {
         
 
         stats:[
-            {name: 'drawability', value: 'NA'},
-            {name: 'manaCost', value: 'NA'},
-            {name: 'power', value: 'NA'},
-            {name: 'control', value: 'NA'},
-            {name: 'land', value: 'NA'},
-            {name: 'tokens', value: 'NA'}
+            {name: 'drawability', value: 'NA', id: 0},
+            {name: 'manaCost', value: 'NA', id: 1},
+            {name: 'power', value: 'NA', id: 2},
+            {name: 'control', value: 'NA', id: 3},
+            {name: 'land', value: 'NA', id: 4},
+            {name: 'tokens', value: 'NA', id: 5}
         ]
     }
 
@@ -114,7 +113,7 @@ export default class App extends React.Component {
         });
         if (!isUpdated) {
             alert('added to Deck!')
-            updatedDeck.push({name: selection.name, colors: selection.colors, img: selection.img, count: 1});
+            updatedDeck.push({name: selection.name, colors: selection.colors, text:selection.text, img: selection.img, count: 1});
         }
         this.setState({currentDeck: updatedDeck})
     }
@@ -181,28 +180,35 @@ export default class App extends React.Component {
             
     }
 
-    //will check the stats based on card text and update whichever stat matches it
-    // NEEDS TO BE CHECKED TOMORROW
-    evaluateStats = () =>{
-            let deck = this.state.currentDeck
-            let tempstats = this.state.stats
-    
-            for(let card in deck){
-                for(let stat in tempstats){
-                    if (card.text.includes(stat.name)){
-                        stat.value +=1
+
+    ////////////////////////////////////////////////////////////////////// STATS SECTION FINISHED ////////////////////////////////////
+           
+
+             addStat = (statName) => {
+                //finished
+                let stats= this.state.stats
+                let lastId = stats[stats.length-1].id
+                let stat={name: statName, value: 0, id: lastId}
+                let deck = this.state.currentDeck
+            
+                    for(let card in deck){
+                        console.log(deck[card])
+                        if (deck[card].text.includes(statName)){
+                            stat.value+=1
+                        }
                     }
-                }
+                this.setState({stats: [...this.state.stats,stat]})
             }
-            this.setState({stats:tempstats})
-    }
 
 
-    addStat = (param) =>{
-        console.log(param)
-        let obj = {name: param, value: 'NA'}
-        this.setState({stats: [...this.state.stats,obj]})
-    }
+            //finished
+            removeStat = (index) =>{
+                console.log(index)
+                let arr = this.state.stats
+                arr.splice(index,1)
+                this.setState({stats: arr})
+            }
+    ////////////////////////////////////////////////////////////////////// END SECTION ////////////////////////////////////
 
     tooltipHandler = () => {
        
@@ -226,15 +232,17 @@ export default class App extends React.Component {
         const {currentDeck} = this.state;
         const colorSum = this.state.blue + this.state.black + this.state.white + this.state.red + this.state.green
         return (
+            
             <div className="App">
+                
 
 
-                <div className = "randomHandBtn" >
+                
+                    <div className="randomHandBtn">
                     <Button className="handBtn" variant="outline-light" onClick={()=>this.makeRandomHand()}>Random Hand</Button>
                     <Button className="handBtn" variant="outline-light" onClick={()=>this.showTutorial()}>Tutorial</Button>
                     <Search className="handBtn" addToDeck={this.addToDeck}/>
-                </div>
-
+                    </div>
                 <div className="currentD">
                     <p style={{marginLeft: '1.5em'}}>Deck List</p>
                     <ul>
@@ -254,27 +262,6 @@ export default class App extends React.Component {
                                     <OverlayTrigger placement="right" overlay={this.getTooltip(card.img)} trigger="click" rootClose={true}>
                                         <img className="img-thumb-sm" src={card.img}/>
                                     </OverlayTrigger>
-
-                                    {/*{<OverlayTrigger placement="right" overlay={this.getTooltip(card.img)}
-                                                    trigger="click">
-                                        <Button bsStyle="default"><img className="img-thumb-sm" src={card.img}/></Button>
-                                            <img className="img-thumb-sm" src={card.img}/>
-                                    </OverlayTrigger>}*/}
-                                    {/*{
-                        this.state.tooltip ?
-                        <OverlayTrigger
-                          key='right'
-                          placement='right'
-                          trigger='click'
-                          overlay={
-                            <Tooltip id={`tooltip-right`}>
-                              <img onClick={()=>{}} styles={{width: '20%', height: '25%'}}src={card.img}></img>
-                            </Tooltip>}
-                          >
-                        </OverlayTrigger>:
-                        <img key={img} onClick={()=>this.tooltipHandler()} src={card.img} style={{width: '2em', height: '2em'}}/>
-                    }*/}
-
                                 </div>
                             </li>
                         ))}
@@ -317,7 +304,7 @@ export default class App extends React.Component {
                 </div>
 
                     <div className="statsDiv">
-                        <Stats props={this.state}/>
+                        <Stats removeStat = {this.removeStat} props={this.state}/>
                         <AddStat addStat={this.addStat} />
                     </div>
                 
@@ -387,7 +374,8 @@ export default class App extends React.Component {
                             </Button>
                             </Modal.Footer>
                         </Modal>
-                </div>             
+                       
+                </div>           
         );
     }
 }

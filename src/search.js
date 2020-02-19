@@ -21,18 +21,19 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cardColor: [],
-            cardLegality: [],
-            cardType: '',
-            cardName: '',
-            cardText: '',
-            cardSetName: '',
+
+            //TESTING STATE
+            query: '',
+            text: '',
+            legalities: [],
+            colors: [],
+            setName: '',
+            pageSize: 4,
+    
             spinner: false,
             modal: false,
             showModal: false,
             menu: false,
-            query: '',
-            form: {query: '', colors: '', text: '', legality: '', set: ''},
             result: [],
         };
 
@@ -59,20 +60,25 @@ export default class Search extends Component {
                                 textAlign: 'center',
                                 width: '100%',
                                 height: '80%',
-                                paddingBottom: '2em'
+                                paddingBottom: '4em'
                             }}>
-                                <img src={obj.img} style={{width: '90%', height: '100%'}}></img>
+                                <img alt='a magic card' src={obj.img} style={{width: '90%', height: '100%'}}></img>
 
-                                <ul key={legality}>{() => {
-                                    for (let x in obj.legality) {
-                                        return (
-                                            <li>{x}</li>
+                                <div key={legality}>
+                                {obj.legalities.map((ob,rule,eachrule)=>{
+
+                                    return(
+                                        <div className="formats" key={rule}>
+                                    <span style={{marginLeft:'.5em'}} key={eachrule}>{ob.format}</span>
+                                        </div>
                                         )
-                                    }
-                                }}</ul>
+                                    })
+                                }
+                                </div>
 
-                                <Button size="block" key={add}
-                                        onClick={() => this.props.addToDeck(obj)}><GiCardPlay/></Button>
+                                <div key={add}>
+                                <GiCardPlay onClick={() => this.props.addToDeck(obj)}/>
+                                </div>
                             </div>
                         )
                     })
@@ -83,17 +89,14 @@ export default class Search extends Component {
     }
 
     closeModal = () => {
-        this.setState({modal: false});
+        this.setState({menu: false}); 
     }
 
     toggleMenu = () => {
         this.setState({menu: !this.state.menu})
     }
 
-    updateInput = (e) => {
-        this.setState({query: e.target.value});
-    }
-
+    
     handleChange(event) {
         const target = event.target;
         let value = any;
@@ -101,21 +104,21 @@ export default class Search extends Component {
         if (target.type === 'checkbox') {
             ////check the target and add to the array.
             if (event.target.checked) {
-                if (target.name === 'cardColor') {
-                    value = [...this.state.cardColor, target.value]
-                } else if (target.name === 'cardLegality') {
-                    value = [...this.state.cardLegality, target.value]
+                if (target.name === 'colors') {
+                    value = [...this.state.colors, target.value]
+                } else if (target.name === 'legalities') {
+                    value = [...this.state.legalities, target.value]
                 }
             }
             ////check the target and remove to the array.
             else {
-                if (target.name === 'cardColor') {
-                    let array = [...this.state.cardColor];
+                if (target.name === 'colors') {
+                    let array = [...this.state.colors];
                     let index = array.indexOf(target.value);
                     array.splice(index, 1);
                     value = array;
-                } else if (target.name === 'cardLegality') {
-                    let array = [...this.state.cardLegality];
+                } else if (target.name === 'legalities') {
+                    let array = [...this.state.legalities];
                     let index = array.indexOf(target.value);
                     array.splice(index, 1);
                     value = array;
@@ -132,33 +135,29 @@ export default class Search extends Component {
     }
 
     searchCard = () => {
-
-        let search = this.state.query
-        let form = this.state.form
-
-        console.log('search: ' + search);
-        console.log('colors: ' + this.state.cardColor);
-        console.log('legalities: ' + this.state.cardLegality);
-        console.log('cardSetName: ' + this.state.cardSetName);
-        console.log('types: ' + this.state.cardType);
-        console.log('text: ' + this.state.cardText);
-        console.log('CardName: ' + this.state.cardName);
-
-        if (search === undefined || search === null || search === '') {
-            return
-        } else {
+      
+             console.log(this.state.legalities.toString()) 
+        if(this.state.menu===true){
+            this.setState({menu:false})
+        }
+            // query works
+            // pageSize works
+            // colors is not working? maybe because it is an array
+            // text works
+            // setName works
             this.setState({modal: true, spinner: true})
 
             mtg.card.all({
-                name: search,
-                colors: form.colors,
-                text: form.text,
-                legalities: form.legality,
-                setName: form.set,
+                name: this.state.query,
+                text: this.state.text, 
+                colors: this.state.colors.toString(), 
+                setName: this.state.setName,
+                gameFormat: this.state.legalities.toString(), 
                 pageSize: 4
             })
-                //* note, when a value is '' it simply isnt searched for but no error is thrown
+               
                 .on('data', card => {
+                    console.log(card)
                     var searchedCard = {
                         name: card.name,
                         img: card.imageUrl,
@@ -168,28 +167,21 @@ export default class Search extends Component {
                         types: card.types,
                         setName: card.setName,
                         text: card.text,
-                        legality: card.legalities
+                        legalities: card.legalities 
                     }
 
                     this.setState({result: [...this.state.result, searchedCard], spinner: false})
-                })
-        }
+            })
     }
 
     render() {
-
         return (
 
             <div style={{width: '40%', float:'right', marginLeft: '1em'}}>
                 <Modal
                     style={{height: '70%', marginTop: '5em'}}
                     show={this.state.modal}
-                    onHide={() => {
-                        this.setState({modal: !this.state.modal})
-                    }}
-                    onExit={() => {
-                        console.log('modal closed')
-                    }}
+                    onHide={ ()=>{this.setState({modal: !this.state.modal})}}
                     size="sm"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered>
@@ -200,88 +192,73 @@ export default class Search extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button size='block' onClick={this.closeModal}>Close</Button>
+                        <Button size='block' onClick={()=>this.closeModal()}>Close</Button>
                     </Modal.Footer>
 
                 </Modal>
 
 
                 <Modal show={this.state.menu} onHide={() => this.toggleMenu()}>
-                    <Modal.Body className="modalColoring">
+                <Modal.Header onClick={this.closeModal} closeButton>
+                    <Modal.Title>Advanced Search</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body >
 
                         {/*preventDefault is called on the event when submitting the form to prevent a browser reload/refresh*/}
                         <Form onSubmit={(e) => {e.preventDefault()}}>
                             <Form.Group controlId="formBasicCardName">
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control name='cardName' type="text" placeholder="Enter card name"
+                                <Form.Control name='query' type="text" placeholder="Enter card name"
                                               value={this.state.cardName} onChange={this.handleChange}/>
                             </Form.Group>
 
                             <Form.Group controlId="formBasicCardText">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control name='cardText' type="text" placeholder="Enter card text"
+                                <Form.Label>Card Text</Form.Label>
+                                <Form.Control name='text' type="text" placeholder="Enter card text"
                                               value={this.state.cardText} onChange={this.handleChange}/>
                             </Form.Group>
 
                             <Form.Group controlId="formBasicCardSet">
                                 <Form.Label>Set Name</Form.Label>
-                                <Form.Control name='cardSetName' type="text" placeholder="Enter set name"
+                                <Form.Control name='setName' type="text" placeholder="Enter set name"
                                               value={this.state.cardSetName} onChange={this.handleChange}/>
                             </Form.Group>
 
-                            <Form.Label>card colors</Form.Label>
+                            <Form.Label>card colors (check multiple for 2 or more colors in a single card)</Form.Label>
                             <Form.Group controlId="formBasicColors">
                                 <div className="formSubsection">
-                                    <Form.Check name="cardColor" type="checkbox" label="Blue" value="Blue"
+                                    <Form.Check name="colors" type="checkbox" id="formBasicColors1" label="Blue" value="Blue"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="Black" value="Black"
+                                    <Form.Check name="colors" type="checkbox" id="formBasicColors2" label="Black" value="Black"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="White" value="White"
+                                    <Form.Check name="colors" type="checkbox" id="formBasicColors3" label="White" value="White"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="Green" value="Green"
+                                    <Form.Check name="colors" type="checkbox" id="formBasicColors4" label="Green" value="Green"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardColor" type="checkbox" label="Red" value="Red"
-                                                onChange={this.handleChange}/>
-                                </div>
-                            </Form.Group>
-
-                            <Form.Label>legality</Form.Label>
-                            <Form.Group controlId="formBasicLegality">
-                                <div className="formSubsection">
-                                    <Form.Check name="cardLegality" type="checkbox" label="Standard" value="Standard"
-                                                onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Modern" value="Modern"
-                                                onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Commander" value="Commander"
-                                                onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Pioneer" value="Pioneer"
-                                                onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Legacy" value="Legacy"
-                                                onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Vintage" value="Vintage"
-                                                onChange={this.handleChange}/>
-                                    <Form.Check name="cardLegality" type="checkbox" label="Pauper" value="Pauper"
+                                    <Form.Check name="colors" type="checkbox" id="formBasicColors5" label="Red" value="Red"
                                                 onChange={this.handleChange}/>
                                 </div>
                             </Form.Group>
 
+                            
                             <Form.Group controlId="formBasicType">
                                 <Form.Label>card Type</Form.Label>
                                 <div className="formSubsection">
-                                    <Form.Check name="cardType" type="radio" label="creature" value="creature"
+                                    <Form.Check name="cardType" type="radio" id="formBasicType1" label="creature" value="creature"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardType" type="radio" label="sorcery" value="sorcery"
+                                    <Form.Check name="cardType" type="radio" id="formBasicType2" label="sorcery" value="sorcery"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardType" type="radio" label="artifact" value="artifact"
+                                    <Form.Check name="cardType" type="radio" id="formBasicType3" label="artifact" value="artifact"
                                                 onChange={this.handleChange}/>
-                                    <Form.Check name="cardType" type="radio" label="land" value="land"
+                                    <Form.Check name="cardType" type="radio" id="formBasicType4" label="land" value="land"
                                                 onChange={this.handleChange}/>
                                 </div>
                             </Form.Group>
 
 
-                            <Button variant="primary" type="submit" size='block' onClick={this.closeModal}>
-                                Close
+                            
+                            <Button variant="primary" type="button" size='block' onClick={this.searchCard}>
+                                Search
                             </Button>
                         </Form>
 
@@ -290,7 +267,7 @@ export default class Search extends Component {
 
 
               
-                    <InputGroup className="mb-3" onChange={(e) => this.updateInput(e)}>
+                    <InputGroup className="mb-3" onChange={this.handleChange}>
                         <InputGroup.Append>
                             <button type="submit" onClick={() => this.searchCard()}><FaSearch/></button>
                         </InputGroup.Append>
