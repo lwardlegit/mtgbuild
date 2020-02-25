@@ -17,11 +17,9 @@
   margin-left: 1em;
   background-color: #3d435e;
 }
+
 .searchdiv{
-  display: flex;
-  justify-content: center;
   margin:auto;
-  margin-top: 5em;
   width: 50%;
 }
 
@@ -59,12 +57,10 @@
 }
 
 .statsDiv{
-  display: flex;
+  display: block;
   margin:auto;
-  margin-top: 20%;
   width: 40%;
-  height: 20em;
-  background-color: #3d435e;
+  background-color: black;
   justify-content: space-between;
   }
 
@@ -90,10 +86,6 @@
       padding: 1em;
     }
     
-    .addStatBtn{
-      margin-left: 1em;
-      margin-right:1em;
-    }
     
     .statsNames{
       display: flex;
@@ -109,10 +101,14 @@
       }
       .handBtn{
         width: 100%;
+        margin:auto;
       }
       .searchdiv{
-        width: 100%;
-      }
+        display: flex;
+        width: 80%;
+        margin:auto;
+        padding:1em;
+      }      
       .currentD{
         margin-left: 10%;
         width: 80%;
@@ -123,14 +119,63 @@
         width: 80%;
       }
       .statsDiv{
+        display: block;
         margin-top: 1rem;
-        width: 80%;
+        width: 90%;
+        background-color: black;
+        justify-content: space-between;
+      }
+      .addStatForm{
+        margin:auto;
+        display: block;
+        width: 70%;
+        padding: .5em;
+      }
+      .addStatBtn{
+        display: block;
+        padding:1em;
+        margin-left: 2em;
+        width:100%;
+      }
+      .handModalBody{
+        margin:auto;
+        margin-top: .5em;
+        width:100%;
+        display: block;
+        border-style: none;
+      }
+      .handModalFooter{
+        width: 100%;
+        background-color: black;
+        display: block;
+        border-style: none;
+      }
+      .handCards{
+        margin-left:3em;
+        height:200px;
+        width:160px;
       }
     }
+
+
 .handModal{
-  width: 100%;
-  height: 70%;
-  margin-top: 8em;
+  margin:4em;
+  padding:2em;
+  margin-top: 10em;
+  height: 20em;
+  width:15em;
+  background: black;
+}
+.handModalBody{
+  background: black;
+  display: block;
+  margin:auto;
+}
+.handModalFooter{
+  width:12em;
+  background: black;
+  display: block;
+  margin:auto;
 }
 .tutorialBody{
   color:aliceblue;
@@ -145,7 +190,13 @@
 }
 .formats{
   display: inline;
+  margin-left:1em;
+  width: 20%;
+  word-wrap: break-word;
   font-size: 11px;
+}
+.formats p{
+  
 }
 .modalColoring{
   width:70em;

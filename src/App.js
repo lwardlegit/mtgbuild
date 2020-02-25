@@ -224,7 +224,7 @@ export default class App extends React.Component {
 
     getTooltip(card) {
         return <Tooltip className="tooltip-inner-custom">
-            <img className="img-thumb-large" src={card} style={{width: '250px', height: '320px'}}/>
+            <img className="img-thumb-large" src={card} style={{width: '250px', height: '320px'}} alt="an enlarged card thumbnail"/>
         </Tooltip>;
     }
 
@@ -241,7 +241,10 @@ export default class App extends React.Component {
                     <div className="randomHandBtn">
                     <Button className="handBtn" variant="outline-light" onClick={()=>this.makeRandomHand()}>Random Hand</Button>
                     <Button className="handBtn" variant="outline-light" onClick={()=>this.showTutorial()}>Tutorial</Button>
-                    <Search className="handBtn" addToDeck={this.addToDeck}/>
+                    </div>
+
+                    <div className="searchdiv">
+                    <Search addToDeck={this.addToDeck}/>
                     </div>
                 <div className="currentD">
                     <p style={{marginLeft: '1.5em'}}>Deck List</p>
@@ -260,7 +263,7 @@ export default class App extends React.Component {
 
 
                                     <OverlayTrigger placement="right" overlay={this.getTooltip(card.img)} trigger="click" rootClose={true}>
-                                        <img className="img-thumb-sm" src={card.img}/>
+                                        <img className="img-thumb-sm" src={card.img} alt="a card thumbnail"/>
                                     </OverlayTrigger>
                                 </div>
                             </li>
@@ -311,15 +314,15 @@ export default class App extends React.Component {
                 
 
       
-                        <Modal show={this.state.handModal} className="modalBod">
+                        <Modal show={this.state.handModal}>
                             
-                            <Modal.Body className="modalColoring">
+                            <Modal.Body className="handModalBody" >
                                    {this.state.randomHand ?
                                    
                                    this.state.randomHand.map((card,index)=>{
                                        return(
-                                           <div key = {index} style={{display: 'inline'}}>
-                                               <img height="200px" width= "160px" src={card.img} alt={card.name}></img>
+                                           <div className="handCards" key = {index} style={{display: 'inline'}}>
+                                               <img src={card.img} alt={card.name}></img>
                                            </div>
                                        )
                                    })
@@ -328,18 +331,20 @@ export default class App extends React.Component {
                                        <p>We are picking your hand</p>
                                        <Spinner animation="border" size="sm"/>
                                        </div>}
-                            </Modal.Body>
-                            <Modal.Footer className="modalColoring">
-                            <Button variant="outline-dark" onClick={()=>{this.setState({handModal:false})}}>
+
+                                       <Modal.Footer className="handModalFooter container-fluid">
+                            <Button variant="outline-dark" size="block" onClick={()=>{this.setState({handModal:false})}}>
                                 Close
                             </Button>
                             </Modal.Footer>
+                            </Modal.Body>
+                            
                         </Modal>
 
 
 
 
-                        <Modal show={this.state.tutorial} className="handModal">
+                        <Modal show={this.state.tutorial} >
                             
                             <Modal.Body className="tutorialBody">
                                    <h3>Welcome to deck builder!</h3>
@@ -369,7 +374,7 @@ export default class App extends React.Component {
 
                             </Modal.Body>
                             <Modal.Footer className="tutorialBody" >
-                            <Button variant="outline-primary" size="block" onClick={()=>{this.showTutorial()}}>
+                            <Button variant="outline-light" size="block" onClick={()=>{this.showTutorial()}}>
                                 Got it!
                             </Button>
                             </Modal.Footer>

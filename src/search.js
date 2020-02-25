@@ -60,7 +60,7 @@ export default class Search extends Component {
                                 textAlign: 'center',
                                 width: '100%',
                                 height: '80%',
-                                paddingBottom: '4em'
+                                paddingBottom: '4em',
                             }}>
                                 <img alt='a magic card' src={obj.img} style={{width: '90%', height: '100%'}}></img>
 
@@ -69,7 +69,7 @@ export default class Search extends Component {
 
                                     return(
                                         <div className="formats" key={rule}>
-                                    <span style={{marginLeft:'.5em'}} key={eachrule}>{ob.format}</span>
+                                    <span key={eachrule}>{ob.format}</span>
                                         </div>
                                         )
                                     })
@@ -177,7 +177,7 @@ export default class Search extends Component {
     render() {
         return (
 
-            <div style={{width: '40%', float:'right', marginLeft: '1em'}}>
+            <div >
                 <Modal
                     style={{height: '70%', marginTop: '5em'}}
                     show={this.state.modal}

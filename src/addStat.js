@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {AiFillQuestionCircle} from 'react-icons/ai';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import {Button,Tooltip} from 'react-bootstrap';
 
 export default class AddStat extends Component {
 
@@ -26,20 +26,24 @@ export default class AddStat extends Component {
 
     render() {
         return (
-            <div style={{marginTop: '1.5em', display:'flex', justifyContent:'space-evenly'}}>
+            <div>
 
-                <form onSubmit={(e)=>e.preventDefault()} >
+                <form className="addStatForm" onSubmit={(e)=>e.preventDefault()} >
                    
-                        <input  style={{marginLeft: '1em'}}name='newStat' value={ this.state.newStat } onChange={this.handleChange}/>
+                        <input name='newStat' value={ this.state.newStat } onChange={this.handleChange}/>
                     
-                    <button onClick={ async()=>{
+                    <div className="addStatBtn">
+                    <Button variant="outline-light" onClick={ async()=>{
                         this.props.addStat(this.state.newStat) 
                         this.setState({newStat:''})
-                        }} type="button">Add Stat</button>
+                        }} type="button">Add Stat</Button>
+
+                                <OverlayTrigger placement="right" overlay={this.getTooltip()} trigger="click" rootClose={true}>
+                                <AiFillQuestionCircle style={{marginLeft:'1em'}}/>
+                                </OverlayTrigger>
+                    </div>
                     
-                    <OverlayTrigger placement="right" overlay={this.getTooltip()} trigger="hover" rootClose={true}>
-                        <AiFillQuestionCircle style={{marginLeft:'1em'}}/>
-                    </OverlayTrigger>
+                    
                 </form>
             </div>
         )
