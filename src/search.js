@@ -27,6 +27,8 @@ export default class Search extends Component {
             text: '',
             legalities: [],
             colors: [],
+            cardType: '',
+            subtype: '',
             setName: '',
             pageSize: 4,
     
@@ -124,7 +126,10 @@ export default class Search extends Component {
                     value = array;
                 }
             }
-        } else {
+        }
+        
+        
+        else {
             value = target.value;
         }
 
@@ -136,7 +141,7 @@ export default class Search extends Component {
 
     searchCard = () => {
       
-             console.log(this.state.legalities.toString()) 
+             console.log(this.state.query) 
         if(this.state.menu===true){
             this.setState({menu:false})
         }
@@ -152,12 +157,14 @@ export default class Search extends Component {
                 text: this.state.text, 
                 colors: this.state.colors.toString(), 
                 setName: this.state.setName,
+                types: this.state.cardType,
+                subtypes: this.state.subtype,
                 gameFormat: this.state.legalities.toString(), 
                 pageSize: 4
             })
                
                 .on('data', card => {
-                    console.log(card)
+                    console.log(card.types)
                     var searchedCard = {
                         name: card.name,
                         img: card.imageUrl,
@@ -218,6 +225,12 @@ export default class Search extends Component {
                                               value={this.state.cardText} onChange={this.handleChange}/>
                             </Form.Group>
 
+                            <Form.Group controlId="formBasicCardtype">
+                                <Form.Label>Card subtype</Form.Label>
+                                <Form.Control name='subtype' type="text" placeholder="Enter card subtype"
+                                              value={this.state.subtype} onChange={this.handleChange}/>
+                            </Form.Group>
+
                             <Form.Group controlId="formBasicCardSet">
                                 <Form.Label>Set Name</Form.Label>
                                 <Form.Control name='setName' type="text" placeholder="Enter set name"
@@ -267,7 +280,7 @@ export default class Search extends Component {
 
 
               
-                    <InputGroup className="mb-3" onChange={this.handleChange}>
+                    <InputGroup className="mb-3">
                         <InputGroup.Append>
                             <button type="submit" onClick={() => this.searchCard()}><FaSearch/></button>
                         </InputGroup.Append>
@@ -276,7 +289,7 @@ export default class Search extends Component {
                             <button type="submit" onClick={() => this.toggleMenu()}><GiHamburgerMenu/></button>
                         </InputGroup.Prepend>
 
-                        <FormControl aria-describedby="basic-addon1"/>
+                        <FormControl name="query" onChange={this.handleChange} aria-describedby="basic-addon1"/>
                     </InputGroup>
                 
             </div>
