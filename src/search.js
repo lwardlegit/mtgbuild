@@ -164,7 +164,7 @@ export default class Search extends Component {
             })
                
                 .on('data', card => {
-                    console.log(card.types)
+                    
                     var searchedCard = {
                         name: card.name,
                         img: card.imageUrl,

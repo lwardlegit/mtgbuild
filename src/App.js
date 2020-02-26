@@ -12,12 +12,16 @@ import {AiOutlineMinus} from 'react-icons/ai';
 import {Button,Tooltip} from 'react-bootstrap';
 
 
+
+
 export default class App extends React.Component {
     state = {
      
         cardCount: 0,
         currentDeck: [],
         randomHand:[],
+        deckPrice: '$0.00 USD',
+        runningTotal: 0.00,
         blue: 0,
         black: 0,
         white: 0,
@@ -38,6 +42,8 @@ export default class App extends React.Component {
             {name: 'tokens', value: 'NA', id: 5}
         ]
     }
+
+
 
     colorCases = (card) => {
         let colorArray = card.colors
@@ -94,18 +100,46 @@ export default class App extends React.Component {
         }
     }
 
+
+
+    estimateCost = () => {
+        console.log('inside estimate cost')
+        var value = 0.00 
+    
+        for (let card in this.state.deck){
+        
+            try{
+                fetch(`http://api.tcgplayer.com/v1.32.0/catalog/${card.name}`) // --> fetch ID using card's name
+            .then((response) => {
+                return response.json();
+              })
+              .then((productID) => {
+                console.log(productID); 
+
+                
+                fetch(`http://api.tcgplayer.com/v1.32.0/pricing/product/productIds/${productID}`) //-->  fetch price with ID
+                .then((productValue)=>{
+                    console.log(productValue)
+                })
+              });
+            
+            }catch(err){
+                console.log(err)
+            }
+        }
+    }
+
     /*if selection contains a color, we increase by 1, if the color is
      * more than one color, we update states of matching colors by 1
      */
     addToDeck = (selection) => {
-
+        this.estimateCost() //evaluate the cost of the deck since we are adding a card
         this.colorCases(selection)
         this.cardFunctionality(selection)
         let isUpdated = false;
 
         const updatedDeck = this.state.currentDeck.map(c => {
             if (c.name === selection.name) {
-                // card is already in the deck we add +1 to the count
                 isUpdated = true;
                 return {...c, count: c.count + 1};
             }
@@ -116,6 +150,8 @@ export default class App extends React.Component {
             updatedDeck.push({name: selection.name, colors: selection.colors, text:selection.text, img: selection.img, count: 1});
         }
         this.setState({currentDeck: updatedDeck})
+        
+       
     }
 
 
@@ -133,7 +169,9 @@ export default class App extends React.Component {
                 }
             }
             this.setState({currentDeck: deck})
+            this.estimateCost()
         }
+        
     }
 
 
@@ -247,7 +285,12 @@ export default class App extends React.Component {
                     <Search addToDeck={this.addToDeck}/>
                     </div>
                 <div className="currentD">
-                    <p style={{marginLeft: '1.5em'}}>Deck List</p>
+
+                    <div style={{display: 'flex',justifyContent:'space-between'}}>
+                    <p style={{marginLeft: '.5em', marginRight:'1em'}}>Deck List</p>
+                    <p style={{marginLeft: '.5em', marginRight:'1em'}}>{`Deck Price: ${this.state.deckPrice}`}</p>
+                    </div>
+                    
                     <ul>
                         {currentDeck.map((card, index, num, img) => (
                             <li className='cardinDeckList' key={index}>
